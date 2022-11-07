@@ -5,13 +5,13 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 # For webcam input:
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)                    # 定义了摄像头对象，id为o一般就是本机的摄像头
 with mp_hands.Hands(
     model_complexity=0,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as hands:
-  while cap.isOpened():
-    success, image = cap.read()
+  while cap.isOpened():                      # 判断摄像头是否已经打开
+    success, image = cap.read()              # success变量表示当前是否读取到照片，image存储当前一帧的照片
     if not success:
       print("Ignoring empty camera frame.")
       # If loading a video, use 'break' instead of 'continue'.
@@ -20,7 +20,7 @@ with mp_hands.Hands(
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
     image.flags.writeable = False
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # cvtColor为颜色空间转换函数，相当于对照片进行预处理。此处将照片从BGR格式转换成了RGB
     results = hands.process(image)
 
     # Draw the hand annotations on the image.
@@ -43,6 +43,8 @@ with mp_hands.Hands(
         # Fill list with x and y positions of each landmark
         for landmarks in hand_landmarks.landmark:
           handLandmarks.append([landmarks.x, landmarks.y])
+
+        print(handLandmarks)
 
         # Test conditions for each finger: Count is increased if finger is
         #   considered raised.
@@ -74,6 +76,8 @@ with mp_hands.Hands(
 
     # Display finger count
     cv2.putText(image, str(fingerCount), (50, 450), cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 0, 0), 10)
+
+    print(fingerCount)
 
     # Display image
     cv2.imshow('MediaPipe Hands', image)
