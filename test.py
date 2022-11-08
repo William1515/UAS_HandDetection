@@ -50,14 +50,14 @@ with mp_hands.Hands(
         #   considered raised.
         # Thumb: TIP x position must be greater or lower than IP x position,
         #   deppeding on hand label.
-        if handLabel == "Left" and handLandmarks[4][0] > handLandmarks[3][0]:
-          fingerCount = fingerCount+1
+        if handLabel == "Left" and handLandmarks[4][0] > handLandmarks[3][0]:     # 先确定左右手，再看大拇指的特征，因为大
+          fingerCount = fingerCount+1                                             # 拇指是横着伸出去的，所以通过x轴判断是否伸出去了大拇指
         elif handLabel == "Right" and handLandmarks[4][0] < handLandmarks[3][0]:
           fingerCount = fingerCount+1
 
         # Other fingers: TIP y position must be lower than PIP y position,
         #   as image origin is in the upper left corner.
-        if handLandmarks[8][1] < handLandmarks[6][1]:       #Index finger
+        if handLandmarks[8][1] < handLandmarks[6][1]:       #Index finger         # 纯机械的判断伸出了几根手指
           fingerCount = fingerCount+1
         if handLandmarks[12][1] < handLandmarks[10][1]:     #Middle finger
           fingerCount = fingerCount+1
